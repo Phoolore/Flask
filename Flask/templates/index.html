@@ -2,17 +2,23 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name = viewport content="width=device_width, initial_scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <title> Новостной сайт </title>
     </head>
     <body>
         <br> новости </br>
         {% for topic in news %}
-        <ol> {{topic[0]}} </ol>
-        <li> {{topic[1]}} </li>
-        <li> <a href = "/news_detail/{{topic[0] - 1}}"> Читать далее</a> </li>
+        <p>{{topic[0]}} {{topic[1]}} {{topic[2]}} {{topic[3]}} {{topic[4]}}</p>
+        11
+        {% endfor %}
+        {% for topic in feedbacks %}
+        22
+        <p>{{topic[0]}} {{topic[1]}} {{topic[2]}} {{topic[3]}} {{topic[4]}} {{topic[5]}}</p>
         {% endfor %}
         <button> Click ME</button>
-        <script src="scripts/main.js"></script>
+        <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script> 
+        <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
         <p></p>
     </body>
 </html>
