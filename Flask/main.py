@@ -21,7 +21,7 @@ class News(db.Model):
     created_date = db.Column(db.DateTime, default=datetime.utcnow)
     def __repr__(self):
         return (self.id, self.title, self.text, self.email, self.created_date)
-
+    
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False, default = 'Anonim')
@@ -41,8 +41,8 @@ class FeedbackForm(FlaskForm):
     email = EmailField('your email', validators=[Optional()])
     rating = SelectField("Your rate", choices = [i for i in range(1,11)])
     submit = SubmitField("Add")
-
-
+    
+    
 class NewsForm(FlaskForm):
     title = StringField('title', validators=[DataRequired(message="Field is to be not empty")])
     text = TextAreaField('text', validators=[DataRequired(message="Field is to be not empty")])
@@ -60,7 +60,7 @@ def cookie():
 @app.route("/addnews", methods=["GET", "POST"])
 def addnews_page():
     form = NewsForm()
-
+    
     if form.validate_on_submit():
         new = News(
         title = form.title.data,
@@ -83,7 +83,7 @@ def feedback_page():
         email = form.email.data,
         rating = form.rating.data
         )
-        db.session.add(new)
+        db.session.add(feedback)
         db.session.commit()
         return redirect("/")
     return render_template("FeedbackPage.html", form=form )
@@ -105,13 +105,23 @@ def database():
 def index_news():
     news_list = News.query.all()
     feedbacks_list = Feedback.query.all()
-    return render_template('index.html', news=news_list, feedbacks=feedbacks_list)
+    return render_template('index.html', news = news_list, feedbacks = feedbacks_list)
 
 
 @app.route("/news_detail/<int:id>")
 def news_detail(id):
-    return render_template('news_details.html', id = id, new = data[id] )
+    # news = db.session.execute(db.select(News).order_by(News.id)).scalar()
+    news = db.session.execute(db.select(News).filter_by(id = id)).scalar()
+    if news is not None:
+        return render_template('news_details.html', id = id, news = news )
+    else:
+        return page_not_found(f"News with id '{id}' not found")
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', e=e), 404
+    
 
 def fib(n):
     x1 = 1
@@ -121,8 +131,8 @@ def fib(n):
     for i in range(n):
         x1, x2 = x2 , x1 + x2
         yield x2
-
-
+        
+        
 @app.route("/fib/<int:a>")
 def fib_page(a):
     return render_template("fib_page.html", data = [str(i) for i in fib(a)], index = a)
