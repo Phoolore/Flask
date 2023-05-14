@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name = viewport content="width=device_width, initial_scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <title> Новостной сайт </title>
+    </head>
+    <body>
+        <ul><br> Новости </br>
 
-<head>
-    <meta charset="utf-8">
-    <meta name=viewport content="width=device_width, initial_scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <title> Новостной сайт </title>
-</head>
+        {% for topic in news %}
+        <li><p>{{topic.title}}</p> 
+            <p>{{topic.text}}</p></li>
+        {% endfor %}
+    </ul>
 
-<body>
-    <br> новости </br>
-    {% for topic in news %}
-    <p>id={{topic.id}}</p>
-    <p>title={{topic.title}}</p>
-    <p>text={{topic.text}}</p>
-    <p>email={{topic.email}}</p>
-    <p>created_date={{topic.created_date}}</p>
-    {% endfor %}
-    {% for topic in feedbacks %}
-    <p>{{topic[0]}} {{topic[1]}} {{topic[2]}} {{topic[3]}} {{topic[4]}} {{topic[5]}}</p>
-    {% endfor %}
-    <button> Click ME</button>
-    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
-</body>
 
+        <ul><br> Отзывы </br>
+        {% for topic in feedbacks %}
+        <li><p>{{topic.rating}}</p>
+            <p>{{topic.text}}</p>
+            <p>{{topic.name}}</p> </li>
+        {% endfor %}
+    </ul>
+
+        <button> Click ME</button>
+        <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script> 
+        <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+        <p></p>
+    </body>
 </html>
