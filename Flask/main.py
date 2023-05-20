@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, EmailField, SelectField
 from wtforms.validators import DataRequired, Length, Optional
+import requests, re
 
 
 app = Flask(__name__)
@@ -31,6 +32,10 @@ class Feedback(db.Model):
     created_date = db.Column(db.DateTime, default=datetime.utcnow)
     def __repr__(self):
         return (self.id, self.name, self.text, self.email, self.rating, self.created_date)
+    
+    
+# class Category(db.Model):
+    
 
 
 db.create_all()
@@ -153,6 +158,29 @@ def time_page():
     return datetime.now().strftime("%H:%M:%S")
 
 
+@app.route('/file/<path:a>')
+def files(a):
+    try:
+        with open(a, encoding='utf8') as f:
+            return f.read()
+    except Exception as e:
+        page_not_found(e)
+    
+ip = re.search(r'\d+\.\d+\.\d+\.\d+', requests.get('https://2ip.ua/ru/').text).group()
+print(ip)
+proxies = {
+    'http' : ip
+}
+
+
+
+session = requests.Session()
+session.proxies.update(proxies)
+session.get(f'http://127.0.0.1:5000')
+
 if __name__ == '__main__':
-    app.run(debug = True)
-# проекты:(базы,  парсинг, данных тесты,) слежка за ценами, парсинг афиши, прежде чем задавать вопрос задать его гуглу
+    # from waitress import serve
+    # serve(app, host= "127.0.0.1", port=5000)
+    
+    app.run(debug = True, host = '0.0.0.0', port= 80)
+    # проекты:(базы,  парсинг, данных тесты,) слежка за ценами, парсинг афиши, прежде чем задавать вопрос задать его гуглу
