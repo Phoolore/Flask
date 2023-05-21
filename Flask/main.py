@@ -9,19 +9,28 @@ import requests, re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_KEY'
+app.secret_key = 'secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 db = SQLAlchemy(app)
 data = [[1 ,2], [3, 4], [5, 6], [7, 8], [9, 10]]
 
 
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), unique=True, nullable=False)
+    news = db.relationship('News', back_populates='category')
+    def __repr__(self):
+        return f"Category {self.id}:{self.title}"
 class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True, nullable=False)
     text = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(64), nullable=True, default = "no email address")
     created_date = db.Column(db.DateTime, default=datetime.utcnow)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable = True)
+    category = db.relationship('Category', back_populates='news')
     def __repr__(self):
-        return (self.id, self.title, self.text, self.email, self.created_date)
+        return f"News {self.id}:{self.title[:20]}"
     
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,13 +40,8 @@ class Feedback(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.utcnow)
     def __repr__(self):
-        return (self.id, self.name, self.text, self.email, self.rating, self.created_date)
+        return f"Feedback {self.rating} points"
     
-    
-# class Category(db.Model):
-    
-
-
 db.create_all()
 
 class FeedbackForm(FlaskForm):
@@ -168,19 +172,19 @@ def files(a):
     
 ip = re.search(r'\d+\.\d+\.\d+\.\d+', requests.get('https://2ip.ua/ru/').text).group()
 print(ip)
-proxies = {
-    'http' : ip
-}
+# proxies = {
+#     'http' : ip
+# }
 
 
 
-session = requests.Session()
-session.proxies.update(proxies)
-session.get(f'http://127.0.0.1:5000')
+# session = requests.Session()
+# session.proxies.update(proxies)
+# session.get(f'http://127.0.0.1:5000')
 
 if __name__ == '__main__':
     # from waitress import serve
-    # serve(app, host= "127.0.0.1", port=5000)
+    # serve(app, host= "0.0.0.0", port=80)
     
-    app.run(debug = True, host = '0.0.0.0', port= 80)
+    app.run()
     # проекты:(базы,  парсинг, данных тесты,) слежка за ценами, парсинг афиши, прежде чем задавать вопрос задать его гуглу
