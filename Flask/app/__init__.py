@@ -1,12 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 app.config.from_object('config.Config') 
 
-from . import models, forms, views
+from . import models, views
 
 
 db.create_all()

@@ -1,6 +1,9 @@
 from datetime import datetime, date, time
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 from . import app, db
+from .forms import FeedbackForm, NewsForm
+from .models import Category, News, Feedback
+
 
 
 @app.route('/cookie/')
