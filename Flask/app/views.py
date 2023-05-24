@@ -45,18 +45,6 @@ def feedback_page():
     return render_template("FeedbackPage.html", form=form )
 
 
-
-@app.route("/database")
-def database():
-    with open('vacan.csv', newline = "\n") as f:
-        n = []
-        for line in f.readlines():
-            n += [line]
-        res = ",".join(n)
-        print(res)
-        return res
-
-
 @app.route("/")
 def index_news():
     news_list = News.query.all()
