@@ -20,6 +20,7 @@ pip install -r requirements.txt
 4. Создаем файл .env и укажите настройки подключения к БД(sqlite и т.п.) и т.п.
 '''.env
 DATABASE_URI = sqlite:///db.sqlite3
+
 SECRET_KEY = YOUR_SECRET_KEY
 '''
 5. Запустите flask приложение
