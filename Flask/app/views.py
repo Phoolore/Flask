@@ -1,5 +1,6 @@
 from datetime import datetime, date, time
 from flask import Flask, render_template, redirect, url_for
+import os
 from . import app, db
 from .forms import FeedbackForm, NewsForm
 from .models import Category, News, Feedback
@@ -46,7 +47,7 @@ def feedback_page():
 
 
 @app.route("/")
-def index_news():
+def index_page():
     news_list = News.query.all()
     feedbacks_list = Feedback.query.all()
     return render_template('index.html', news = news_list, feedbacks = feedbacks_list)
@@ -99,8 +100,10 @@ def time_page():
 
 @app.route('/file/<path:a>')
 def files(a):
+    print("app/files/" + a, os.getcwd())
     try:
-        with open(a, encoding='utf8') as f:
+        with open("app/files/" + a, encoding='utf8') as f:
+            print("files/" + a)
             return f.read()
     except Exception as e:
         page_not_found(e)

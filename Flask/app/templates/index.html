@@ -7,11 +7,14 @@
         <title> Новостной сайт </title>
     </head>
     <body>
+        <div id="wrapper"></div>
+        {% include "navigation.html" %}
         <div class="col-md-8"> 
+
         <h1>Главная</h1>
         <hr>
         
-       <h3>Новости</h3> 
+       <center> <h3>Новости</h3> </center>
     <ol>
         {% for topic in news %}
         <div class = "card mb-3">
@@ -24,7 +27,8 @@
         {% endfor %}
     </ol>
 
-        <h3>Отзывы</h3>
+    <hr>
+        <center><h3>Отзывы</h3></center>
         <ul>
         {% for topic in feedbacks %}
         <li><p>{{topic.rating}}</p>
@@ -32,10 +36,13 @@
             <p>{{topic.name}}</p> </li>
         {% endfor %}
     </ul>
+    <hr>
 
         <button> Click ME</button>
+        {% include "side_navigation.html" %}
         <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script> 
         <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
         </div>
+        {% include "footer.html" %}
     </body>
 </html>
