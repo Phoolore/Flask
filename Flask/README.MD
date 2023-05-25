@@ -23,6 +23,7 @@ DATABASE_URI = sqlite:///db.sqlite3
 
 SECRET_KEY = YOUR_SECRET_KEY
 '''
+
 5. Запустите flask приложение
 '''comandline
 python -m flask run
