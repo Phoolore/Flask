@@ -7,15 +7,25 @@
         <title>{% block title %} {% endblock title %} </title>
     </head>
     <body>
-        <div id="wrapper"></div>
+        <div id="wrapper">
         {% include "navigation.html" %}
         <div class="container my-3"> 
-
-        
+            {% block header %} {% endblock header %}
+            <hr>
+        <div class="row">
+        <div class="col-9">
+            {% block content %} {% endblock content %}
+        </div>
+        <div class="col-3 pt-5 links-primary">
+           {% include "side_navigation.html" %} 
+        </div>
         <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script> 
         <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
         </div>
-        {% include "side_navigation.html" %}
-        {% include "footer.html" %}
+        
+        
+    </div>
+    {% include "footer.html" %}
+    </div>
     </body>
 </html>

@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <h1> Error 404 occured </h1>
-        <title> Error 404 </title>
-    </head>
-    <body>
-        <br> Текст ошибки </br>
+{% extends 'base.html' %}
+{% block title %}
+Страница не найдена
+{% endblock  title%}
+{% block header%} 
+    <h1>Error 404 occured|Произошла ошибка 404</h1>
+{% endblock header%}
+{% block content %}
+<br> Текст ошибки </br>
         <p> {{e}} </p>
-    </body>
-</html>
+{% endblock  content%}
